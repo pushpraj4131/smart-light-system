@@ -1,0 +1,51 @@
+<!-- <section class="login-block vh" >
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 login-sec">
+				<h2 class="text-center">Login Now</h2>
+				<form [formGroup]='loginForm' class="login-form">
+					<div class="form-group">
+						<label for="exampleInputEmail1" class="text-uppercase">Username</label>
+						<input formControlName="email" [ngClass]="{ 'is-invalid':  f.email.errors }" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1" class="text-uppercase">Password</label>
+						<input formControlName="password" [ngClass]="{  'is-invalid':f.password.errors  }"  type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+					</div>
+					<div class="form-check">
+						<button type="submit" (click)="login(loginForm.value)" [disabled]= "isDisable || loginForm.invalid" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-8 banner-sec">
+			</div>
+		</div>
+	</div>
+</section>
+ -->
+ <div class="container">
+	<form [formGroup]='loginForm'  class="form-style" autocomplete="off">
+		<div class="header">
+			<div class="example-icon" >Smart-Light-System</div>
+			
+			  </div>
+		<div class="content">
+        <label for="inp" class="inp">
+          <input type="text" formControlName="email" [ngClass]="{ 'is-invalid':  f.email.errors }" id="inp" placeholder="&nbsp;">
+          <span class="label">Username</span>
+          <span class="border"></span>
+        </label>
+        <label for="inp" class="inp">
+          <input formControlName="password" [ngClass]="{  'is-invalid':f.password.errors  }" type="password" id="inp" placeholder="&nbsp;">
+          <span class="label">Password</span>
+          <span class="border"></span>
+        </label>
+      
+		</div>
+    <hr>
+		<div class="footer">
+      <button type="submit"  (click)="login(loginForm.value)" [disabled]= "isDisable || loginForm.invalid" name="submit" value="Login" class="bton login" >Login</button>
+     
+		</div>
+	</form>
+</div>

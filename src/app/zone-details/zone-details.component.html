@@ -1,0 +1,23 @@
+<div class="container">
+	<div class="row mt-3">
+		<div class="col-12 " *ngFor="let device of deviceInfo">
+			<div class="form-row">
+				<div class="col-3 ml-auto p-0 " style="vertical-align: middle">
+					{{device.type}}
+				</div>
+				<div class="col-2 mr-auto p-0">
+					<label class="switch">
+						<input *ngIf="device.state == 'on'" (change)="changeEvent($event , device.device_id)" type="checkbox" checked>
+						<input *ngIf="device.state == 'off'" (change)="changeEvent($event , device.device_id)" type="checkbox" >
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="container">	
+		<pre *ngFor="let item of fireBaseData | async"></pre>
+
+</div> -->
