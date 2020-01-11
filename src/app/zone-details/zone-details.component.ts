@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AngularFireDatabase , AngularFireList } from '@angular/fire/database';
-import { Observable } from 'rxjs';
-// import { environment } from '../../environments/environment';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { ZoneService } from '../services/zone.service';
 import * as firebase from "firebase";
 @Component({
@@ -11,59 +9,76 @@ import * as firebase from "firebase";
 	styleUrls: ['./zone-details.component.css']
 })
 export class ZoneDetailsComponent implements OnInit {
-	userInfo:any;
-	userId:any;
-	deviceInfo:any;
+	userInfo: any;
+	userId: any;
+	deviceInfo = [];
 	fireBaseData;
-	zoneUniqueId:any;
+	zoneUniqueId: any;
 	rootRef = firebase.database();
+	snapValue: any;
 	constructor(
 		private _activatedRoute: ActivatedRoute,
 		private _zoneService: ZoneService,
-		public _angularFirebaseDB: AngularFireDatabase
-
-	) { 
-		this.userInfo =  JSON.parse( localStorage.getItem("currentUser"));
-		this.userId = this._activatedRoute.snapshot.paramMap.get('zoneId');
-		this.zoneUniqueId = this._activatedRoute.snapshot.paramMap.get('zoneUniqueId');
-		console.log(this.userId , this.zoneUniqueId);
+		public _angularFirebaseDB: AngularFireDatabase,
+		private change: ChangeDetectorRef
+	) {
+		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
+		_activatedRoute.params.subscribe(async (params: any) => {
+			this.userId = params.zoneId;
+			this.zoneUniqueId = params.zoneUniqueId;
+			await this.getZoneById();
+		})
+		console.log(this.userId, this.zoneUniqueId);
 	}
 
 	ngOnInit() {
-		this.getZoneById();
-		
-		
+		// this.getZoneById();
 	}
-	getZoneById(){
-		this._zoneService.getZoneById(this.userId).subscribe((res)=>{
+	getZoneById() {
+		this._zoneService.getZoneById(this.userId).subscribe((res: any) => {
 			this.deviceInfo = res;
-			console.log(res);
-		},(err)=>{
+			let starCountRef = this.rootRef.ref(this.zoneUniqueId);
+			starCountRef.on('value', (snapshot) => {
+				if (this.deviceInfo) {
+					this.deviceInfo.map((device, index) => {
+						for (let [key, value] of Object.entries(snapshot.val())) {
+							if (device.device_id === key) {
+								this.deviceInfo[index].state = value;
+							}
+						}
+					});
+				}
+				this.change.detectChanges();
+			});
+		}, (err) => {
 			console.log(err)
 		})
 	}
-	changeEvent(event , id){
-		if(event.currentTarget.checked == true){
+
+	getSwitchState(device) {
+		return device.state === 'off' ? false : true;
+	}
+	changeEvent(event, id) {
+		if (event.currentTarget.checked == true) {
 			var lightStatus = "on"
-			// event.currentTarget.checked = 
-		}else{
+		} else {
 			var lightStatus = "off"
 		}
 		var body = {
-			"state" : lightStatus,
+			"state": lightStatus,
 		}
-		console.log("id ==>" , id);
 		id = id.toString();
 		var obj = {
-			[id] : lightStatus
+			[id]: lightStatus
 		}
-		console.log("Body " , body);
 		this.rootRef.ref(this.zoneUniqueId).update(obj);
-		console.log("event ===>" , event.currentTarget.checked ,"==++>" ,id);
-		this._zoneService.updateDeviceStatus(body , id).subscribe((res)=>{
-			console.log("res of updated devcice" , res);
-		} , (err)=>{
-			console.log("err of updated devcice" , err);
+		this._zoneService.updateDeviceStatus(body, id).subscribe((res) => {
+			console.log(res);
+		}, (err) => {
+			console.log("err of updated devcice", err);
 		});
+	}
+	updateStarCount(abc, acc) {
+		console.log("acc", acc);
 	}
 }

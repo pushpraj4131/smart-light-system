@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-3 p-3 "  *ngFor="let name of areaName">
 		<div class="b-game-card text-center" >
-			<div class="card-body extra-style" [routerLink]="['/zone-details/' ,name._id , name.unique_name]" class="b-game-card__cover" >
+			<div class="card-body extra-style" [routerLink]="['/details/' ,name._id , name.unique_name]" class="b-game-card__cover" >
 				<h5 class="card-title m-0" style="line-height: 100px">{{name.zone_name}}</h5>
 			</div>
 		</div>

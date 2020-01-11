@@ -26,7 +26,7 @@ export class AppComponent {
 			console.log("called 2nd time");
 			console.log(this.userInfo);
 			this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
-			this.router.navigate(['/dashboard']);
+			// this.router.navigate(['/dashboard']);
 		}
 		
 

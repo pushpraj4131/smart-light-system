@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background: linear-gradient(to bottom, #FFB88C, #DE6262);
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -36,7 +36,8 @@
 }
 
 input:checked + .slider {
- background: linear-gradient(to bottom, #FFB88C, #DE6262);
+ /* background: linear-gradient(to bottom, #FFB88C, #DE6262); */
+ background: linear-gradient(to bottom, #93ff70, #398e00);
 }
 
 
