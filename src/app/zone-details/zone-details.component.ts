@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { ZoneService } from '../services/zone.service';
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 @Component({
 	selector: 'app-zone-details',
 	templateUrl: './zone-details.component.html',
-	styleUrls: ['./zone-details.component.css']
+	styleUrls: ['./zone-details.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ZoneDetailsComponent implements OnInit {
 	userInfo: any;
@@ -51,7 +52,7 @@ export class ZoneDetailsComponent implements OnInit {
 				this.change.detectChanges();
 			});
 		}, (err) => {
-			console.log(err)
+			// console.log(err)
 		})
 	}
 
@@ -72,11 +73,11 @@ export class ZoneDetailsComponent implements OnInit {
 			[id]: lightStatus
 		}
 		this.rootRef.ref(this.zoneUniqueId).update(obj);
-		this._zoneService.updateDeviceStatus(body, id).subscribe((res) => {
+	/*	this._zoneService.updateDeviceStatus(body, id).subscribe((res) => {
 			console.log(res);
 		}, (err) => {
 			console.log("err of updated devcice", err);
-		});
+		});*/
 	}
 	updateStarCount(abc, acc) {
 		console.log("acc", acc);

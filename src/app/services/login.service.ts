@@ -19,11 +19,13 @@ export class LoginService {
         return this.currentUserSubject.value;
     }
 	login(body){
+		let user:any;
 		console.log("body in servie " , body);
 		return this._http.post(  config.baseApiUrl+"login" , body)
 		.pipe(map(user => {
+			let us:any = user;
 			console.log("login user=========>", user);
-			if (user) {
+			if (us.message != "No user found") {
 				localStorage.setItem('currentUser', JSON.stringify(user));
 				this.isLoggedIn.emit('loggedIn');
 				this.currentUserSubject.next(user);

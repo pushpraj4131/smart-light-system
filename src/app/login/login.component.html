@@ -27,7 +27,7 @@
 	<form [formGroup]='loginForm'  class="form-style" autocomplete="off">
 		<div class="header">
 			<div class="example-icon" >Smart-Light-System</div>
-			
+			<div class=" text-muted"*ngIf="error" >Invalid user/password</div>
 			  </div>
 		<div class="content">
         <label for="inp" class="inp">
@@ -40,12 +40,15 @@
           <span class="label">Password</span>
           <span class="border"></span>
         </label>
-      
+      	
 		</div>
+		
     <hr>
 		<div class="footer">
       <button type="submit"  (click)="login(loginForm.value)" [disabled]= "isDisable || loginForm.invalid" name="submit" value="Login" class="bton login" >Login</button>
      
 		</div>
 	</form>
+
+	
 </div>
